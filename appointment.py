@@ -18,9 +18,15 @@ def create_appointment(patient, provider, date, time):
     if not time:
         raise ValueError("Appointment time cannot be empty")
 
+    try:
+        datetime.strptime(time, "%H:%M")
+    except ValueError:
+        raise ValueError("Appointment time must use HH:MM format")
+
     return {
         "patient": patient,
         "provider": provider,
         "date": date,
         "time": time
     }
+

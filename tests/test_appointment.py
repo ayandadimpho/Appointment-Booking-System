@@ -145,3 +145,12 @@ def test_appointment_rejects_invalid_date_format():
             "15-10-2026",
             "08:00"
         )
+
+def test_appointment_rejects_invalid_time_format():
+    with pytest.raises(ValueError):
+        create_appointment(
+            "Ayanda",
+            "Dr Mtolo",
+            "2026-10-15",
+            "8:00 AM"
+        )
