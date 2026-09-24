@@ -61,3 +61,16 @@ def cancel_appointment(appointments, patient, provider, date, time):
             return existing_appointment
 
     raise ValueError("Appointment not found")
+
+
+def is_provider_available(appointments, provider, date, time):
+    for existing_appointment in appointments:
+        if (
+            existing_appointment["provider"] == provider
+            and existing_appointment["date"] == date
+            and existing_appointment["time"] == time
+            and existing_appointment["status"] == "booked"
+        ):
+            return False
+
+    return True

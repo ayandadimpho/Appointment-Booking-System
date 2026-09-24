@@ -178,3 +178,66 @@ def test_booked_appointment_has_booked_status():
     )
 
     assert booked["status"] == "booked"
+
+
+def test_provider_is_available_when_slot_is_not_booked():
+    appointments = []
+
+    available = appointment.is_provider_available(
+        appointments,
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    assert available is True
+
+def test_provider_is_not_available_when_slot_is_booked():
+    appointments = []
+
+    new_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    appointment.book_appointment(appointments, new_appointment)
+
+    available = appointment.is_provider_available(
+        appointments,
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    assert available is False
+
+def test_provider_is_available_after_appointment_is_cancelled():
+    appointments = []
+
+    new_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    appointment.book_appointment(appointments, new_appointment)
+
+    appointment.cancel_appointment(
+        appointments,
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    available = appointment.is_provider_available(
+        appointments,
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    assert available is True
