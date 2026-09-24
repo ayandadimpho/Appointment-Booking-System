@@ -126,3 +126,25 @@ def test_cannot_book_same_provider_at_same_time():
 
     with pytest.raises(ValueError):
         appointment.book_appointment(appointments, second_appointment)
+
+def test_cancel_appointment():
+    appointments = []
+
+    new_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    appointment.book_appointment(appointments, new_appointment)
+
+    cancelled = appointment.cancel_appointment(
+        appointments,
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    assert cancelled["status"] == "cancelled"

@@ -45,3 +45,17 @@ def book_appointment(appointments, new_appointment):
             raise ValueError("Appointment slot is already booked")
     appointments.append(new_appointment)
     return new_appointment
+
+
+def cancel_appointment(appointments, patient, provider, date, time):
+    for existing_appointment in appointments:
+        if (
+            existing_appointment["patient"] == patient
+            and existing_appointment["provider"] == provider
+            and existing_appointment["date"] == date
+            and existing_appointment["time"] == time
+        ):
+            existing_appointment["status"] = "cancelled"
+            return existing_appointment
+
+    raise ValueError("Appointment not found")
