@@ -148,3 +148,16 @@ def test_cancel_appointment():
     )
 
     assert cancelled["status"] == "cancelled"
+
+
+def test_cannot_cancel_nonexistent_appointment():
+    appointments = []
+
+    with pytest.raises(ValueError):
+        appointment.cancel_appointment(
+            appointments,
+            "Ayanda",
+            "Dr Mtolo",
+            "2026-10-15",
+            "08:00"
+        )
