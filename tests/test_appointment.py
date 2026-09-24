@@ -241,3 +241,101 @@ def test_provider_is_available_after_appointment_is_cancelled():
     )
 
     assert available is True
+
+def test_appointment_accepts_today_date():
+    from datetime import datetime
+
+    today = datetime.today().strftime("%Y-%m-%d")
+
+    new_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        today,
+        "08:00"
+    )
+
+    assert new_appointment["date"] == today
+
+def test_appointment_accepts_midnight_time():
+    new_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "00:00"
+    )
+
+    assert new_appointment["time"] == "00:00"
+
+def test_appointment_accepts_end_of_day_time():
+    new_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "23:59"
+    )
+
+    assert new_appointment["time"] == "23:59"
+
+def test_appointment_rejects_impossible_calendar_date():
+    with pytest.raises(ValueError):
+        appointment.create_appointment(
+            "Ayanda",
+            "Dr Mtolo",
+            "2026-02-30",
+            "08:00"
+        )
+
+def test_appointment_rejects_invalid_hour():
+    with pytest.raises(ValueError):
+        appointment.create_appointment(
+            "Ayanda",
+            "Dr Mtolo",
+            "2026-10-15",
+            "24:00"
+        )
+
+def test_appointment_rejects_invalid_minute():
+    with pytest.raises(ValueError):
+        appointment.create_appointment(
+            "Ayanda",
+            "Dr Mtolo",
+            "2026-10-15",
+            "08:60"
+        )
+
+def test_complete_appointment_workflow():
+    appointments = []
+
+    new_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    appointment.book_appointment(
+        appointments,
+        new_appointment
+    )
+
+    assert appointment.is_provider_available(
+        appointments,
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    ) is False
+
+    appointment.cancel_appointment(
+        appointments,
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    assert appointment.is_provider_available(
+        appointments,
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    ) is True
