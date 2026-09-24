@@ -161,3 +161,20 @@ def test_cannot_cancel_nonexistent_appointment():
             "2026-10-15",
             "08:00"
         )
+
+def test_booked_appointment_has_booked_status():
+    appointments = []
+
+    new_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    booked = appointment.book_appointment(
+        appointments,
+        new_appointment
+    )
+
+    assert booked["status"] == "booked"

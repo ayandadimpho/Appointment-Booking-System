@@ -43,6 +43,8 @@ def book_appointment(appointments, new_appointment):
             and existing_appointment["time"] == new_appointment["time"]
         ):
             raise ValueError("Appointment slot is already booked")
+
+    new_appointment["status"] = "booked"
     appointments.append(new_appointment)
     return new_appointment
 
