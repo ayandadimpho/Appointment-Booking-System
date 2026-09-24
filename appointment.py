@@ -19,6 +19,14 @@ def create_appointment(patient, provider, date, time):
         raise ValueError("Appointment time cannot be empty")
 
     try:
+        appointment_date = datetime.strptime(date, "%Y-%m-%d").date()
+    except ValueError:
+        raise ValueError("Appointment date must use YYYY-MM-DD format")
+
+    if appointment_date < datetime.today().date():
+        raise ValueError("Appointment date cannot be in the past")
+
+    try:
         datetime.strptime(time, "%H:%M")
     except ValueError:
         raise ValueError("Appointment time must use HH:MM format")
