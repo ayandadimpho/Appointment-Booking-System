@@ -36,5 +36,12 @@ def create_appointment(patient, provider, date, time):
 
 
 def book_appointment(appointments, new_appointment):
+    for existing_appointment in appointments:
+        if (
+            existing_appointment["provider"] == new_appointment["provider"]
+            and existing_appointment["date"] == new_appointment["date"]
+            and existing_appointment["time"] == new_appointment["time"]
+        ):
+            raise ValueError("Appointment slot is already booked")
     appointments.append(new_appointment)
     return new_appointment

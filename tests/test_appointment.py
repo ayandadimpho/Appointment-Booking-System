@@ -103,3 +103,26 @@ def test_book_appointment():
 
     assert booked == new_appointment
     assert new_appointment in appointments
+
+
+def test_cannot_book_same_provider_at_same_time():
+    appointments = []
+
+    first_appointment = appointment.create_appointment(
+        "Ayanda",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    second_appointment = appointment.create_appointment(
+        "Thabo",
+        "Dr Mtolo",
+        "2026-10-15",
+        "08:00"
+    )
+
+    appointment.book_appointment(appointments, first_appointment)
+
+    with pytest.raises(ValueError):
+        appointment.book_appointment(appointments, second_appointment)
