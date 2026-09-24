@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 def create_appointment(patient, provider, date, time):
     if not patient:
         raise ValueError("Patient name cannot be empty")
@@ -11,20 +12,15 @@ def create_appointment(patient, provider, date, time):
         raise ValueError("Appointment date cannot be empty")
 
     try:
-        datetime.strptime(date, "%Y-%m-%d")
-    except ValueError:
-        raise ValueError("Appointment date must use YYYY-MM-DD format")
-
-    if not time:
-        raise ValueError("Appointment time cannot be empty")
-
-    try:
         appointment_date = datetime.strptime(date, "%Y-%m-%d").date()
     except ValueError:
         raise ValueError("Appointment date must use YYYY-MM-DD format")
 
     if appointment_date < datetime.today().date():
         raise ValueError("Appointment date cannot be in the past")
+
+    if not time:
+        raise ValueError("Appointment time cannot be empty")
 
     try:
         datetime.strptime(time, "%H:%M")
@@ -38,3 +34,7 @@ def create_appointment(patient, provider, date, time):
         "time": time
     }
 
+
+def book_appointment(appointments, new_appointment):
+    appointments.append(new_appointment)
+    return new_appointment
