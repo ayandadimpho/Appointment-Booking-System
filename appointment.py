@@ -8,6 +8,9 @@ def create_appointment(patient, provider, date, time):
     if not date:
         raise ValueError("Appointment date cannot be empty")
 
+    if not time:
+        raise ValueError("Appointment time cannot be empty")
+
     return {
         "patient": patient,
         "provider": provider,
