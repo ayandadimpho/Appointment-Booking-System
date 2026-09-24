@@ -117,3 +117,12 @@ def test_appointment_rejects_empty_provider_name():
         assert False
     except ValueError:
         assert True
+
+def test_appointment_rejects_empty_date():
+    with pytest.raises(ValueError):
+        create_appointment(
+            "Ayanda",
+            "Dr Mtolo",
+            "",
+            "08:00"
+        )
