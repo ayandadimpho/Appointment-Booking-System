@@ -99,3 +99,6 @@ Possible future improvements include:
 * Authentication and authorization
 * User interface
 * Appointment persistence
+
+## Verification Code 
+WTC-WWCEQSVH
